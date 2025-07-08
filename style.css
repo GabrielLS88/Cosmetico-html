@@ -80,6 +80,7 @@ body {
     margin-bottom: 10px;
     max-width: 900px;
     text-align: center;
+    height: 80vh;
 }
 
 
@@ -97,14 +98,17 @@ body {
     }
 
     .espacoHeader img {
-        max-width: 100px;
-        margin-bottom: 10px;
+        display: none;
     }
 }
 
 @media (max-width: 480px) {
     .espacoHeader p {
         font-size: 14px;
+    }
+
+    .espacoHeader img {
+        display: none;
     }
 
     .iframe-chatbot {
