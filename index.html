@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmética Farmácia de Manipulação</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section class="sectionMain">
+        <div class="espacoHeader">
+            <div class="mensagems">
+                <p>
+                    💬 Continue seu atendimento com a <b>Cosmética Farmácia</b> pelo chat logo abaixo.
+                </p>
+                <p>
+                    📞 Caso tenha alguma urgência, favor entrar em contato pelo fixo: (41) 3343-7318.
+                </p>
+            </div>
+
+            <img src="./assets/logo.jpg" alt="">
+        </div>
+
+        <div class="iframe-chatbot" id="iframe"></div>
+    </section>
+
+    <script src="https://unpkg.com/blip-chat-widget" type="text/javascript"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const phone = params.get('phone');
+        const name = params.get('name');
+
+
+        function decodeBase64(input) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+            let str = input.replace(/=+$/, '');
+            let output = '';
+
+            if (str.length % 4 === 1) {
+                throw new Error('"decodeBase64" failed: The string is not correctly encoded.');
+            }
+
+            for (let bc = 0, bs = 0, buffer, i = 0;
+                (buffer = str.charAt(i++));
+                ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+                    bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+            ) {
+                buffer = chars.indexOf(buffer);
+            }
+
+            return output;
+        }
+
+        const nome = decodeBase64(name);
+        const telefone = decodeBase64(phone)
+
+        console.log(nome, telefone)
+
+        window.onload = function () {
+            var builder = new BlipChat()
+                .withAppKey('Y29zbWV0aWNhZmFybWFjaWE6MmNiYmYzMGQtZTIwZS00YjYzLTgzN2UtN2UyZGExYjMzMDgw')
+                .withTarget('iframe')
+                .withCustomCommonUrl('https://cosmetica.chat.blip.ai/')
+                .withAuth({
+                    authType: BlipChat.DEV_AUTH,
+                    userIdentity: telefone,
+                    userPassword: telefone,
+                })
+                .withAccount({
+                    fullName: nome,
+                    phoneNumber: telefone
+                })
+                .withEventHandler(BlipChat.LOAD_EVENT, function () {
+                    console.log('Usuário logado');
+                })
+                .withEventHandler(BlipChat.CREATE_ACCOUNT_EVENT, function () {
+                    console.log('Usuário criado');
+                });
+            builder.build();
+        };
+
+    </script>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
