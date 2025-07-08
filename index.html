@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmética Farmácia de Manipulação</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -25,7 +25,7 @@
                 </p>
             </div>
 
-            <img src="./assets/logo.jpg" alt="">
+            <img src="/assets/Logo.jpg" alt="Logo">
         </div>
 
         <div class="iframe-chatbot" id="iframe"></div>
@@ -58,8 +58,9 @@
             return output;
         }
 
-        const nome = decodeBase64(name);
-        const telefone = decodeBase64(phone)
+        
+        const nome = name.trim() !== "" ? decodeBase64(name) : name;
+        const telefone = phone.trim() !== "" ? decodeBase64(phone) : phone;
 
         console.log(nome, telefone)
 
@@ -77,18 +78,20 @@
                     fullName: nome,
                     phoneNumber: telefone
                 })
+
                 .withEventHandler(BlipChat.LOAD_EVENT, function () {
                     console.log('Usuário logado');
                 })
                 .withEventHandler(BlipChat.CREATE_ACCOUNT_EVENT, function () {
                     console.log('Usuário criado');
                 });
+
             builder.build();
         };
 
     </script>
 
-    <script src="./script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>
